@@ -1,0 +1,36 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+\usepackage{caption}
+\usepackage{fontspec} % Required for xelatex
+
+
+\geometry{a4paper, margin=1in}
+
+% Set up the header
+\pagestyle{fancy}
+\fancyhf{} % Clear all header and footer fields
+\fancyhead[C]{\includegraphics[width=16cm, height = 2cm]{<<Logo>>}} % Left-aligned and larger logo in the header
+\renewcommand{\headrulewidth}{0pt}
+% Apply the header settings after the title page
+\makeatletter
+\let\ps@plain\ps@fancy
+\makeatother
+
+\date{}
+\captionsetup[table]{justification=raggedright, format=plain} % Set caption alignment within tables
+
+\setmainfont{Times New Roman} 
+
+\begin{document}
+
+\maketitle
+\vspace{-2.5cm}
+
+\input{report/input.tex}
+\input{report/table.tex}
+\input{report/figures.tex}
+
+
+\end{document}
