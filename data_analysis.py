@@ -43,4 +43,20 @@ df['date'] = df['year'].str[2:] + 'M' + df['month']
 
 df.set_index('date', inplace=True)
 
-keepvars = ['I. УРСГАЛ ДАНС','III. САНХҮҮГИЙН ДАНС','Төлбөрийн тэнцлийн нийт дүн','V. НӨӨЦ ХӨРӨНГӨ']
+keepvars = ['I. УРСГАЛ ДАНС','II. ХӨРӨНГИЙН ДАНС','III. САНХҮҮГИЙН ДАНС',
+            'Төлбөрийн тэнцлийн нийт дүн','V. НӨӨЦ ХӨРӨНГӨ','IV. Алдаа болон орхигдуулга']
+
+df = df[keepvars]
+# df.columns = ['ca','cap','fa','bop','res','eo']
+
+columns_dict = {
+    'I. УРСГАЛ ДАНС' : 'ca',
+    'II. ХӨРӨНГИЙН ДАНС' : 'cap',
+    'III. САНХҮҮГИЙН ДАНС' : 'fa',
+    'Төлбөрийн тэнцлийн нийт дүн' : 'bop',
+    'V. НӨӨЦ ХӨРӨНГӨ' : 'res',
+    'IV. Алдаа болон орхигдуулга' : 'eo'
+}
+
+df.rename(columns=columns_dict, inplace=True)
+
