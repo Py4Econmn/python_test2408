@@ -1,5 +1,6 @@
 import pandas as pd
 import plotly.express as px
+import datetime
 
 df = pd.read_excel("data/bop.xlsx", skiprows=1)
 
@@ -68,6 +69,10 @@ fig = px.line(df, x=df.index, y='ca', title='Current account', markers=True)
 # Show the plot
 fig.show()
 
+today_month = datetime.datetime.now().month - 1
+
+df['ca_cum'] = df['ca'].rolling(window=today_month, min_periods=3).sum()
+df.to_csv("data/bop_short.csv")
 
 
 df = pd.read_excel("data/bop.xlsx", skiprows=1)
@@ -81,4 +86,5 @@ df['date'] = df['year'].str[2:] + 'M' + df['month']
 
 # filtering
 df[(df['date'] == '24M03') & (df['Индикатор нэр'] == 'Дебит')]
+
 

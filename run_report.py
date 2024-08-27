@@ -1,5 +1,6 @@
 import subprocess
 import os
+import pandas as pd
 
 
 def compile_latex_to_pdf(tex_file):
@@ -26,18 +27,34 @@ template_path = "report/report_template.tex"
 output_tex_path = "report/generated_report.tex"
 output_pdf_path = "bop_report_demo.pdf"
 
+
+df = pd.read_csv("data/bop_short.csv")
+df.set_index('date', inplace=True)
+
 # generate input.tex with replaced
+
+value_change = round(df['ca'].diff(12).iloc[-1],2)
+sign_change = "өсжээ" if df['ca'].diff(12).iloc[-1] > 0 else "бууржээ"
+
 context_input = {
     "Date": "Тархаасан: 2024 оны 08 дугаар сарын 12",
+    "value_change": value_change,
+    "sign_change": sign_change
 }
 generate_latex_file("report/input_template.tex", "report/input.tex", context_input)
 
+
 data_dict = {
-    "ca": -309.2,"ca_l1": 221.2,"ca_l2": 1360.8,"ca_diff": -530.3,"ca_diff_pct": "-",
-    "cap": 78.3,"cap_l1": 59.9,"cap_l2": 54.6,"cap_diff": 18.4,"cap_diff_pct": 30.8,
-    "fa": -720.6,"fa_l1": -58.3,"fa_l2": -925.8,"fa_diff": -662.4,"fa_diff_pct": 12.4,
-    "eo": -547.1,"eo_l1": 134.4,"eo_l2": -677.5,"eo_diff": -681.5,"eo_diff_pct": "-",
-    "res": -57.3,"res_l1": 473.7,"res_l2": 1058,"res_diff": -531.0,"res_diff_pct": "-"
+    "ca": df.iloc[-1]['ca'],"ca_l1": df.iloc[-13]['ca'],"ca_l2": df.iloc[-25]['ca'],
+    "ca_diff": df['ca'].diff(12).iloc[-1],"ca_diff_pct": df['ca'].diff(12).iloc[-1]/df['ca'].shift(12).iloc[-1],
+    "cap": df.iloc[-1]['cap'],"cap_l1": df.iloc[-13]['cap'],"cap_l2": df.iloc[-25]['cap'],
+    "cap_diff": df['cap'].diff(12).iloc[-1],"cap_diff_pct": df['cap'].diff(12).iloc[-1]/df['cap'].shift(12).iloc[-1],
+    "fa": df.iloc[-1]['fa'],"fa_l1": df.iloc[-13]['fa'],"fa_l2": df.iloc[-25]['fa'],
+    "fa_diff": df['fa'].diff(12).iloc[-1],"fa_diff_pct": df['fa'].diff(12).iloc[-1]/df['fa'].shift(12).iloc[-1],
+    "eo": df.iloc[-1]['eo'],"eo_l1": df.iloc[-13]['eo'],"eo_l2": df.iloc[-25]['eo'],
+    "eo_diff": df['eo'].diff(12).iloc[-1],"eo_diff_pct": df['eo'].diff(12).iloc[-1]/df['eo'].shift(12).iloc[-1],
+    "res": df.iloc[-1]['res'],"res_l1": df.iloc[-13]['res'],"res_l2": df.iloc[-25]['res'],
+    "res_diff": df['res'].diff(12).iloc[-1],"res_diff_pct": df['res'].diff(12).iloc[-1]/df['res'].shift(12).iloc[-1]
 }
 
 context_input = {
