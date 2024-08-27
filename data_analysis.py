@@ -1,4 +1,5 @@
 import pandas as pd
+import plotly.express as px
 
 df = pd.read_excel("data/bop.xlsx", skiprows=1)
 
@@ -60,3 +61,9 @@ columns_dict = {
 
 df.rename(columns=columns_dict, inplace=True)
 
+# Chart
+
+fig = px.line(df, x=df.index, y='ca', title='Current account', markers=True)
+
+# Show the plot
+fig.show()
