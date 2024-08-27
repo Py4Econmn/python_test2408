@@ -40,3 +40,7 @@ df = df.T
 df['year'] = df.index.str[:4]
 df['month'] = df.index.str[5:7]
 df['date'] = df['year'].str[2:] + 'M' + df['month']
+
+df.set_index('date', inplace=True)
+
+keepvars = ['I. УРСГАЛ ДАНС','III. САНХҮҮГИЙН ДАНС','Төлбөрийн тэнцлийн нийт дүн','V. НӨӨЦ ХӨРӨНГӨ']
