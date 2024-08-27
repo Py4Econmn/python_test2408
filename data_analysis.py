@@ -67,3 +67,12 @@ fig = px.line(df, x=df.index, y='ca', title='Current account', markers=True)
 
 # Show the plot
 fig.show()
+
+
+
+df = pd.read_excel("data/bop.xlsx", skiprows=1)
+df = pd.melt(df, id_vars=['Индикатор нэр'], var_name='Date', value_name='Value')
+
+df['year'] = df['Date'].str[:4]
+df['month'] = df['Date'].str[5:7]
+df['date'] = df['year'].str[2:] + 'M' + df['month']
