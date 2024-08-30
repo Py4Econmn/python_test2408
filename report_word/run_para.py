@@ -5,12 +5,14 @@ def set_font_for_paragraph(paragraph, font_name='Roboto Light', font_size=11):
     for run in paragraph.runs:
         run.font.name = font_name
         run.font.size = Pt(font_size)
+        run.font.bold = False
 
 def set_font_for_table_cell(cell, font_name='Roboto Light', font_size=9):
     for para in cell.paragraphs:
         for run in para.runs:
             run.font.name = font_name
             run.font.size = Pt(font_size)
+            run.font.bold = True
 
 def replace_text_in_paragraph(paragraph, replacements):
     original_text = paragraph.text
@@ -46,14 +48,12 @@ def replace_placeholders(doc, replacements):
 
 # Example usage
 replacements = {
-    '{{DATE}}': '2024-08-29',
-    '{{SUMMARY}}': 'This is the summary of the report.',
-    '{{HEADER1}}': '53.6',
-    '{{HEADER2}}': 'Header 2',
-    '{{DATA1}}': 'Data 1',
-    '{{DATA2}}': 'Data 2'
+    '{{DATE}}': '2024 оны 2 ДУГААР УЛИРЛЫН',
+    '{{free_lag2}}': '155'
 }
 
-doc = Document('report.docx')
+
+dir = 'report_word/'
+doc = Document(dir + 'report.docx')
 replace_placeholders(doc, replacements)
-doc.save('filled_report.docx')
+doc.save(dir + 'filled_report.docx')

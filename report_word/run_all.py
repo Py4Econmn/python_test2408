@@ -1,7 +1,9 @@
 # pip install python-docx
 from docx import Document
 
-doc = Document('report.docx')
+dir = 'report_word/'
+
+doc = Document(dir + 'report.docx')
 
 # for para in doc.paragraphs:
 #     print("-----------------------")
@@ -36,17 +38,13 @@ def replace_placeholders(doc, replacements):
 
 # Example usage
 replacements = {
-    '{{DATE}}': '2024-08-29',
-    '{{SUMMARY}}': 'This is the summary of the report.',
-    '{{HEADER1}}': 'Header 1',
-    '{{HEADER2}}': 'Header 2',
-    '{{DATA1}}': 'Data 1',
-    '{{DATA2}}': 'Data 2'
+    '{{DATE}}': '2024 оны 2 дугаар улирлын',
+    '{{free_lag2}}': '155'
 }
 
 
 replace_placeholders(doc, replacements)
-doc.save('filled_report.docx')
+doc.save(dir + 'filled_report.docx')
 
 
 

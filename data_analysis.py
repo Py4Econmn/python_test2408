@@ -1,6 +1,8 @@
 import pandas as pd
 import plotly.express as px
 import datetime
+import matplotlib.pyplot as plt
+
 
 df = pd.read_excel("data/bop.xlsx", skiprows=1)
 
@@ -12,7 +14,7 @@ df['Индикатор нэр']
 df['Индикатор нэр'].values
 
 # see multiple columns
-df[['Индикатор нэр', '2020-01 Эцсийн**', '2020-02 Эцсийн**']]
+# df[['Индикатор нэр', '2020-01 Эцсийн**', '2020-02 Эцсийн**']]
 
 # head and tail
 df.head()
@@ -65,9 +67,14 @@ df.rename(columns=columns_dict, inplace=True)
 # Chart
 
 fig = px.line(df, x=df.index, y='ca', title='Current account', markers=True)
-
+# fig.write_image('current_account_plot.png') # pip install -U kaleido
 # Show the plot
 fig.show()
+
+plt.plot(df.index, df['ca'], marker='o', linestyle='-', color='b')
+# plt.show()
+plt.savefig('current_account_plot.png')
+
 
 today_month = datetime.datetime.now().month - 1
 

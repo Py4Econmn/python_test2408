@@ -31,14 +31,15 @@ def replace_placeholder_with_image(doc, placeholder, image_path, width_in_inches
                         para.add_run().add_picture(image_path, width=Inches(width_in_inches), height=Inches(height_in_inches))
                         break  # Assuming there is only one placeholder of this type
 
+dir = 'report_word/'
 # Example usage
-doc = Document('report.docx')
+doc = Document(dir + 'report.docx')
 
 # Path to the image file
-image_path = 'figure_bop.png'
+image_path = dir + 'current_account_plot.png'
 
 # Replace placeholder with image
-replace_placeholder_with_image(doc, '{{Figure1}}', image_path, width_in_inches=4.0)
+replace_placeholder_with_image(doc, '{{Figure1}}', image_path, width_in_inches=7.0)
 
 # Save the document
-doc.save('report_with_image.docx')
+doc.save(dir + 'report_with_image.docx')
