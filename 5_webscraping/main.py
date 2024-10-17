@@ -7,20 +7,26 @@ from selenium.webdriver.common.by import By
 import re
 import datetime
 
+
 import os
-os.chdir("3_Webscraping")
+os.chdir("5_webscraping")
+
 
 import util as ut
 from joblib import Parallel, delayed # pip install joblib
 
 
+# simple demo
+# ut.data_collection(1)
+
+
 ## Collect the last page number
-page_last = ut.find_last_page()
-page_last = page_last - 1
+# page_last = ut.find_last_page()
+page_last = 10 - 1 # page_last - 1
 # print(f'Last page: {page_last}')
 
 ## Collect data from all pages in parallel
-page_list = range(0,page_last + 1)
+page_list = range(1,page_last + 1)
 results = Parallel(n_jobs=-1)(delayed(ut.data_collection)(n) for n in page_list)
 
 all_data = []
@@ -31,11 +37,11 @@ for i in range(len(results)):
 df = pd.DataFrame(all_data)
 
 today = datetime.datetime.today().strftime("%Y-%d-%m")
-df.to_csv(f'results/results_{today}.csv', encoding='utf-8-sig')
+df.to_csv(f'result/results_{today}.csv', encoding='utf-8-sig')
 
 
 ## Send email
-ut.send_email()
+# ut.send_email()
 
 
 ## TO BE DONE: collect all ads in one csv file

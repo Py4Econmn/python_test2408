@@ -16,18 +16,22 @@ driver = webdriver.Chrome(options=chrome_options) # open chrome, name the object
 bom_main_page = "https://www.mongolbank.mn/mn"
 driver.get(bom_main_page)
 
+
+
 policy_rate = driver.find_element(By.XPATH,'/html/body/main/section[2]/div/div[1]/div/div/div/div/a/h2').text
 usd_rate    = driver.find_element(By.XPATH,'/html/body/main/section[2]/div/div[3]/div/div/a[1]/div/div[3]').text
 
 # multiple elements
-usd_rate_info    = driver.find_elements(By.XPATH,'//*[@id="app"]/main/section[2]/div/div[3]/div/div/a[1]/div/div')
+usd_rate_info    = driver.find_elements(By.XPATH,'/html/body/main/section[2]/div/div[3]/div/div/a[1]/div/div')
+usd_flag = usd_rate_info[0].text
+usd_label = usd_rate_info[1].text
 usd_rate = usd_rate_info[2].text
 usd_date = usd_rate_info[3].text
-usd_label = usd_rate_info[1].text
-usd_flag = usd_rate_info[0].text
+
+
 
 # sub element search
-fx_info    = driver.find_element(By.XPATH,'//*[@id="app"]/main/section[2]/div/div[3]')
+fx_info    = driver.find_element(By.XPATH,'/html/body/main/section[2]/div/div[3]')
 usd_rate = fx_info.find_element(By.XPATH,'div/div/a[1]/div/div[3]').text
 
 
@@ -50,7 +54,7 @@ for i in range(len(all_rates)):
 # export to excel
 df = pd.DataFrame(rates_list, columns=['Rate', 'MN', 'EN'])
 df['Rate'] = pd.to_numeric(df['Rate'].str.replace(',',''))
-df.to_excel('result/bom_rate.xlsx', index=False)
+df.to_excel('5_webscraping/result/bom_rate.xlsx', index=False)
 
 
 # Daily rate
@@ -68,11 +72,12 @@ def clean_insert(driver, xpath, message):
 # start date
 xpath = '//*[@id="page_currency_rate"]/div/div[1]/article/div[2]/div[3]/div[1]/div/div/input'
 message = "2024-01-01"
+# driver.find_element(By.XPATH, xpath).send_keys(message)
 clean_insert(driver, xpath, message)
 
 # end date
 xpath = '//*[@id="page_currency_rate"]/div/div[1]/article/div[2]/div[3]/div[2]/div/div/input'
-message = "2024-05-19"
+message = "2024-10-16"
 clean_insert(driver, xpath, message)
 
 # button 
@@ -100,7 +105,7 @@ driver.forward()   # next page in browser history
 
 ## Other attributes 
 # find by tag name 
-h1 = driver.find_element(By.TAG_NAME,"h1")
+h1 = driver.find_element(By.TAG_NAME,"header")
 print(h1.text)
 h1 = driver.find_elements(By.TAG_NAME,"h1")
 print(h1[0].text)

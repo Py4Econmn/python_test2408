@@ -7,7 +7,7 @@ import smtplib # to connect to email client - pip install secure-smtplib
 from email.mime.multipart import MIMEMultipart # managing email msg
 from email.mime.text import MIMEText           # managing email msg
 from email.mime.application import MIMEApplication
-import config
+# import config
 
 
 def date_out_parse(date_out):
@@ -62,7 +62,7 @@ def data_collection(page):
     driver.get(main_page)
     page_ads = driver.find_elements(By.XPATH, "/html/body/div[2]/div[3]/section/div[2]/div[1]/div[2]/div[2]/div")
 
-    for i in range(1): #len(page_ads)
+    for i in range(2): #len(page_ads)
         data = {}
         print(f'Ad number {i}')
         page_ads = driver.find_elements(By.XPATH, "/html/body/div[2]/div[3]/section/div[2]/div[1]/div[2]/div[2]/div")
@@ -123,42 +123,42 @@ def data_collection(page):
     driver.quit()
 
     df = pd.DataFrame(data_list)
-    df.to_csv(f'results/unegui_mn_ads_page{page}.csv', index=False, encoding='utf-8-sig') 
+    df.to_csv(f'result/unegui_mn_ads_page{page}.csv', index=False, encoding='utf-8-sig') 
 
 
     return data_list
 
 
-def send_email():
-    # mail content
-    msg = MIMEMultipart('alternative')
-    msg['Subject'] = "Hello" 
-    msg['From'] = config.FROM #'py4econ@gmail.com' 
-    msg['To'] = config.TO #'sugarkhuu@gmail.com'
-    password = config.PASSWORD
+# def send_email():
+#     # mail content
+#     msg = MIMEMultipart('alternative')
+#     msg['Subject'] = "Hello" 
+#     msg['From'] = config.FROM #'py4econ@gmail.com' 
+#     msg['To'] = config.TO #'sugarkhuu@gmail.com'
+#     password = config.PASSWORD
 
-    text = "Hello, \n Sending the new ads added today. \n Best regards, \n Sugarkhuu"
-    part1 = MIMEText(text, 'plain')
-    msg.attach(part1)
+#     text = "Hello, \n Sending the new ads added today. \n Best regards, \n Sugarkhuu"
+#     part1 = MIMEText(text, 'plain')
+#     msg.attach(part1)
 
-    today = datetime.datetime.today().strftime("%Y-%d-%m")
+#     today = datetime.datetime.today().strftime("%Y-%d-%m")
 
-    attachment = MIMEApplication(open(f'results/results_{today}.csv', "rb").read(), _subtype="txt")
-    attachment.add_header('Content-Disposition','attachment', filename=f'results_{today}.csv')
-    msg.attach(attachment)
+#     attachment = MIMEApplication(open(f'results/results_{today}.csv', "rb").read(), _subtype="txt")
+#     attachment.add_header('Content-Disposition','attachment', filename=f'results_{today}.csv')
+#     msg.attach(attachment)
 
 
-    # setup and login
-    mail = smtplib.SMTP('smtp.gmail.com', 587)
-    mail.ehlo()
-    mail.starttls()
-    mail.login(msg['From'], password)
+#     # setup and login
+#     mail = smtplib.SMTP('smtp.gmail.com', 587)
+#     mail.ehlo()
+#     mail.starttls()
+#     mail.login(msg['From'], password)
 
-    # send email
-    try:
-        mail.sendmail('from', msg['To'],  msg.as_string())
-    except Exception as e:
-        print(e)
+#     # send email
+#     try:
+#         mail.sendmail('from', msg['To'],  msg.as_string())
+#     except Exception as e:
+#         print(e)
 
-    mail.quit()
+#     mail.quit()
 
