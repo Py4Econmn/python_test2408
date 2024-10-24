@@ -11,8 +11,8 @@ st.set_page_config(page_title="Loan analysis!!!", page_icon=":bar_chart:",layout
 st.title(" :bar_chart: Loan analysis")
 st.markdown('<style>div.block-container{padding-top:2rem;}</style>',unsafe_allow_html=True)
 
-df = pd.read_csv('../data/sample_loan_2309.csv', encoding = "ISO-8859-1")
-df_out = pd.read_csv('../data/outstanding_2308.csv')
+df = pd.read_csv('./data/sample_loan_2309.csv', encoding = "ISO-8859-1")
+df_out = pd.read_csv('./data/outstanding_2308.csv')
 
 df_out = df_out.groupby('month')['amount'].sum().reset_index()
 
@@ -24,13 +24,14 @@ fig = px.line(df_out, x="month", y="amount",
 # fig.update_traces(marker=dict(sizemode='diameter', opacity=0.7), selector=dict(mode='markers+text'))
 st.plotly_chart(fig,use_container_width=True)
 
-# st.text('Due Date')
-col1, col2 = st.columns((2))
 df["DueDate"] = pd.to_datetime(df["DueDate"])
 
 # Getting the min and max date 
 startDate = dt.date.today() #pd.to_datetime(df["DueDate"]).min()
 endDate = pd.to_datetime(df["DueDate"]).max()
+
+# st.text('Due Date')
+col1, col2 = st.columns((2))
 
 with col1:
     date1 = pd.to_datetime(st.date_input("Due Date: From", startDate))
@@ -76,7 +77,7 @@ with col2:
     st.plotly_chart(fig,use_container_width=True)
 
 
-col1, col2 = st.columns((2))
+# col1, col2 = st.columns((2))
 category_df = df4.groupby(by = ["Branch","Status"], as_index = False)["Amount"].sum()
 with col1:
     st.subheader("Loan outstanding")
@@ -90,15 +91,15 @@ with col2:
     fig.update_traces(text = df4["Branch"], textposition = "outside")
     st.plotly_chart(fig,use_container_width=True)
 
-cl1, cl2 = st.columns((2))
-with cl1:
+# cl1, cl2 = st.columns((2))
+with col1:
     with st.expander("Type_ViewData"):
         st.write(category_df) # .style.background_gradient(cmap="Blues")
         csv = category_df.to_csv(index = False).encode('utf-8')
         st.download_button("Download Data", data = csv, file_name = "Type.csv", mime = "text/csv",
                             help = 'Click here to download the data as a CSV file')
 
-with cl2:
+with col2:
     with st.expander("Branch_ViewData"):
         region = df.groupby(by = "Branch", as_index = False)["Amount"].sum()
         st.write(region.style.background_gradient(cmap="Oranges"))

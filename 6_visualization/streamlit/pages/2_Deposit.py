@@ -11,8 +11,8 @@ st.set_page_config(page_title="Deposit analysis!!!", page_icon=":bar_chart:",lay
 st.title(" :bar_chart: Deposit analysis")
 st.markdown('<style>div.block-container{padding-top:2rem;}</style>',unsafe_allow_html=True)
 
-df = pd.read_csv('../data/sample_loan_2309.csv', encoding = "ISO-8859-1")
-df_out = pd.read_csv('../data/outstanding_2308.csv')
+df = pd.read_csv('./data/sample_loan_2309.csv', encoding = "ISO-8859-1")
+df_out = pd.read_csv('./data/outstanding_2308.csv')
 
 df_out = df_out.groupby('month')['amount'].sum().reset_index()
 

@@ -142,7 +142,7 @@ ax3.scatter(x, y)
 plt.show()
 
 # Setting figure size
-fig = plt.figure(figsize=(16, 9))
+fig = plt.figure(figsize=(8, 4))
 fig.suptitle("Main title")
 ax1 = fig.add_subplot(131)
 ax2 = fig.add_subplot(132)
@@ -155,8 +155,8 @@ ax2.axhline(0.45)
 ax1.axvline(1.5)
 ax3.scatter(x, y)
 ax3.set_title('Ax3 title')
-# plt.show()
+plt.show()
 
 # Save the figure
-# plt.savefig('mypic.png')
-fig.savefig('mypic.png')
+# plt.savefig('6_visualization/mypic.png')
+fig.savefig('6_visualization/mypic.png')
