@@ -3,9 +3,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 
-datadir = "C:\\Users\\sugarkhuu\\Downloads"
+datadir = "6_visualization/hh_survey"
 
-df_ = pd.read_excel(datadir + "\\02_indiv.xlsx")
+df_ = pd.read_stata(datadir + "/data/02_indiv.dta")
 
 codename = {'q0102':'hh_role',
             'q0103':'gender',
@@ -44,6 +44,9 @@ age_labels = ['Up to 30 y.o', '31-40 y.o', '41-50 y.o', '51+ y.o']
 # Add Age Group column to the DataFrame
 df['AGE GROUP'] = pd.cut(df['age'], bins=age_bins, labels=age_labels, right=False)
 
+
+# average salary boxplot
+
 df_plot = df[df['work']=='Тийм']
 median_wages = df.groupby('educ')['w_1m_avg'].median().sort_values(ascending=False)
 col_order = ['Эмэгтэй','Эрэгтэй']
@@ -51,7 +54,7 @@ row_order = ['Up to 30 y.o', '31-40 y.o', '41-50 y.o', '51+ y.o']
 g = sns.FacetGrid(df_plot, row='AGE GROUP', col='gender',row_order=row_order, col_order=col_order, margin_titles=True)
 g.map_dataframe(sns.boxplot, x='educ', y='w_1m_avg', order=median_wages.index, linewidth=1)
 g.set_titles(col_template="{col_name}", row_template="{row_name}")
-g.set_axis_labels('', 'Wage (сая төгрөгөөр)')
+g.set_axis_labels('', 'Цалин (сая төгрөгөөр)')
 for ax in g.axes.flat:
     plt.setp(ax.get_xticklabels(), rotation=15)
     # Set y-axis ticks with step size of 0.5
@@ -65,6 +68,8 @@ plt.suptitle('2022 онд олсон сарын дундаж цалин')
 plt.tight_layout(rect=[0, 0, 1, 0.95])  # Adjust the rect parameter as needed to provide space at the bottom
 plt.show()
 
+
+# number of people
 df_plot = df[(df['work']=='Тийм') & (df['w_1m_avg']>=2)] 
 # df_plot = df[df['work']=='Тийм'] 
 median_wages = df.groupby('educ')['w_1m_avg'].median().sort_values(ascending=False)
@@ -81,3 +86,9 @@ plt.tight_layout(rect=[0, 0, 1, 0.95])  # Adjust the rect parameter as needed to
 plt.suptitle('Цалинтай ажил эрхэлж буй хүний тоо (2 саяас дээш цалинтай хүмүүс, хамрагдсан өрх 2.4%)')
 # plt.suptitle('Цалинтай ажил эрхэлж буй хүний тоо (хамрагдсан өрх 2.4%)')
 plt.show()
+
+
+# analysis
+num_workers = len(df[df['work']=='Тийм'])
+num_workers_2plus = len(df[(df['work']=='Тийм') & (df['w_1m_avg']>=1.5)])
+num_workers_2plus/num_workers
