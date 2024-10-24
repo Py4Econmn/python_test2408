@@ -37,9 +37,9 @@ def get_district(x):
 
 
 # Load the data
-df = pd.read_csv('historical_data/2409/daily.csv')
+df = pd.read_csv('6_visualization/unegui/data/daily.csv')
 # df = df.iloc[:,:23]
-df_loc = pd.read_csv('location.csv')
+df_loc = pd.read_csv('6_visualization/unegui/data/location.csv')
 
 # Rename the columns
 df.rename(columns=name_cols,inplace=True)
@@ -71,7 +71,15 @@ df.pivot_table(index='hour', columns='weekday', values='ad_id', aggfunc='count',
 
 ## AREA
 df['area'] = df['size'].apply(lambda x: re.findall('\d+[.\d]*', x)[0]).astype(float)
+
+a_int = [-np.inf,15,30,50, 80,100,200,500,np.inf]
+df['a_int'] = pd.cut(df['area'], bins=a_int, include_lowest=True)
+df['a_int'].value_counts().sort_values()
+df[df['area']>500][['size','area','a_int']]
+
 df = df[~(df['area']>500) & ~(df['area']<15)] # remove outliers, area > 500
+
+
 
 ## PRICE
 # remove text from price_total 
@@ -97,6 +105,7 @@ df = df[df['price_m2'] < 20]
 df['district'] = df['location'].apply(get_district)
 df = df.merge(df_loc, on='location', how='left')
 
-# df[df['mylocation'].isna()].to_csv('location_missing.csv',index=False,encoding='utf-8-sig')
+df[df['mylocation'].isna()][['location','mylocation']]
+# df[df['mylocation'].isna()].to_csv('6_visualization/unegui/data/location_missing.csv',index=False,encoding='utf-8-sig')
 
-df.to_csv('historical_data/2409/daily_cleaned.csv',index=False,encoding='utf-8-sig')
+df.to_csv('6_visualization/unegui/data/daily_cleaned.csv',index=False,encoding='utf-8-sig')
